@@ -355,6 +355,41 @@ SOURCES: Dict[str, Any] = {
         "license_pudl": LICENSES["cc-by-4.0"],
         "email": "pudl@catalyst.coop",
     },
+    "eiawater": {
+        "title": "EIA Thermoelectric Cooling Water Data",
+        "path": "https://www.eia.gov/electricity/data/water/",
+        "description": (
+            "US Energy Information Administration (EIA) thermoelectric cooling water "
+            "dataset includes generator type and ID, boiler ID, fuel "
+            "consumption, water source, discharge location, and more."
+        ),
+        "field_namespace": "eia",
+        "contributors": [
+            CONTRIBUTORS["catalyst-cooperative"]
+        ],
+        "working_partitions": {
+            "years": sorted(set(range(2014, 2020))),
+        },
+        "keywords": sorted(
+            set(
+                [
+                    "eia",
+                    "water",
+                    "cooling",
+                    "annual",
+                    "yearly",
+                ]
+                + KEYWORDS["eia"]
+                + KEYWORDS["us_govt"]
+                + KEYWORDS["electricity"]
+                + KEYWORDS["fuels"]
+                + KEYWORDS["plants"]
+                + KEYWORDS["environment"]
+            )
+        ),
+        "license_raw": LICENSES["us-govt"],
+        "license_pudl": LICENSES["cc-by-4.0"],
+    }
 }
 """
 Data source attributes by PUDL identifier.

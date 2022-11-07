@@ -240,6 +240,19 @@ class GlueSettings(BaseModel):
     eia: bool = True
     ferc1: bool = True
 
+class EiaWaterSettings(GenericDatasetSettings):
+    """An immutable pydantic model to validate EIA Thermoelectric Cooling Water Data settings.
+
+    Args:
+        data_source: DataSource metadata object
+        years: List of years to validate.
+        tables: List of tables to validate.
+    """
+
+    data_source: ClassVar[DataSource] = DataSource.from_id("eiawater")
+
+    years: List[int] = data_source.working_partitions["years"]
+    tables: List[str] = data_source.get_resource_ids()
 
 class EiaSettings(BaseModel):
     """An immutable pydantic model to validate EIA datasets settings.

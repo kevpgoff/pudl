@@ -134,7 +134,7 @@ class ZenodoFetcher:
     TOKEN = {
         # Read-only personal access tokens for pudl@catalyst.coop:
         "sandbox": "qyPC29wGPaflUUVAv1oGw99ytwBqwEEdwi4NuUrpwc3xUcEwbmuB4emwysco",
-        "production": "KXcG5s9TqeuPh1Ukt5QYbzhCElp9LxuqAuiwdqHP0WS4qGIQiydHn6FBtdJ5",
+        "production": "cDnyQAq8oWvzhuPWTudwhxnHTYLy3ZIpF7Uozdx0KlrxpSQ0bstYBGzlSeyB",
     }
 
     DOI = {
@@ -144,6 +144,7 @@ class ZenodoFetcher:
             "eia860m": "10.5072/zenodo.926659",
             "eia861": "10.5072/zenodo.687052",
             "eia923": "10.5072/zenodo.926301",
+            "eiawater": "10.5072/zenodo.1127033",
             "epacems": "10.5072/zenodo.672963",
             "ferc1": "10.5072/zenodo.926302",
             "ferc714": "10.5072/zenodo.926660",
@@ -154,6 +155,7 @@ class ZenodoFetcher:
             "eia860m": "10.5281/zenodo.6321197",
             "eia861": "10.5281/zenodo.5602102",
             "eia923": "10.5281/zenodo.5596977",
+            "eiawater": "10.5281/zenodo.7297064",
             "epacems": "10.5281/zenodo.4660268",
             "ferc1": "10.5281/zenodo.5534788",
             "ferc714": "10.5281/zenodo.5076672",

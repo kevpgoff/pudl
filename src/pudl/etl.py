@@ -35,6 +35,7 @@ from pudl.metadata.dfs import FERC_ACCOUNTS, FERC_DEPRECIATION_LINES
 from pudl.metadata.fields import apply_pudl_dtypes
 from pudl.settings import (
     EiaSettings,
+    EiaWaterSettings,
     EpaCemsSettings,
     EtlSettings,
     Ferc1Settings,
@@ -72,6 +73,72 @@ def _read_static_tables_eia() -> Dict[str, pd.DataFrame]:
         "coalmine_types_eia": CODE_METADATA["coalmine_types_eia"]["df"],
     }
 
+
+def _etl_eia_thermoelectric_cooling_water_data(eiawater_settings: EiaWaterSettings, ds_kwargs: Dict[str, any]):
+    """Extract, transform and load CSVs for the EIA datasets.
+
+    Args:
+        eia_settings: Validated ETL parameters required by this data source.
+        ds_kwargs: Keyword arguments for instantiating a PUDL datastore,
+            so that the ETL can access the raw input data.
+
+    Returns:
+        A dictionary of EIA dataframes ready for loading into the PUDL DB.
+
+    """
+
+    eiawater_tables = eiawater_settings.tables
+    eiawater_years = eiawater_settings.years
+
+
+    if (not eiawater_tables or not eiawater_years):
+        logger.info("Not loading EIA Thermoelectric Cooling Water Data.")
+        return []
+
+    ds = Datastore(**ds_kwargs)
+    # Extract EIA Thermoelectric Cooling Water Data
+    eiawater_raw_dfs = pudl.extract.eiawater.Extractor(ds).extract(
+        settings=eiawater_settings
+    )
+
+    # Need to implement below next!
+
+    # Transform EIA forms 923, 860
+    eia860_transformed_dfs = pudl.transform.eia860.transform(
+        eia860_raw_dfs, eia860_settings=eia_settings.eia860
+    )
+    eia923_transformed_dfs = pudl.transform.eia923.transform(
+        eia923_raw_dfs, eia923_settings=eia_settings.eia923
+    )
+    # create an eia transformed dfs dictionary
+    eia_transformed_dfs = eia860_transformed_dfs.copy()
+    eia_transformed_dfs.update(eia923_transformed_dfs.copy())
+
+    # Do some final cleanup and assign appropriate types:
+    eia_transformed_dfs = {
+        name: convert_cols_dtypes(df, data_source="eia")
+        for name, df in eia_transformed_dfs.items()
+    }
+
+    entities_dfs, eia_transformed_dfs = pudl.transform.eia.transform(
+        eia_transformed_dfs,
+        eia_settings=eia_settings,
+    )
+    # Assign appropriate types to new entity tables:
+    entities_dfs = {
+        name: apply_pudl_dtypes(df, group="eia") for name, df in entities_dfs.items()
+    }
+
+    for table in entities_dfs:
+        entities_dfs[table] = (
+            pudl.metadata.classes.Package.from_resource_ids()
+            .get_resource(table)
+            .encode(entities_dfs[table])
+        )
+
+    out_dfs.update(entities_dfs)
+    out_dfs.update(eia_transformed_dfs)
+    return out_dfs
 
 def _etl_eia(
     eia_settings: EiaSettings, ds_kwargs: Dict[str, Any]
