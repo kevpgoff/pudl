@@ -86,10 +86,8 @@ def _etl_eia_thermoelectric_cooling_water_data(eiawater_settings: EiaWaterSettin
         A dictionary of EIA dataframes ready for loading into the PUDL DB.
 
     """
-
     eiawater_tables = eiawater_settings.tables
     eiawater_years = eiawater_settings.years
-
 
     if (not eiawater_tables or not eiawater_years):
         logger.info("Not loading EIA Thermoelectric Cooling Water Data.")
@@ -101,8 +99,11 @@ def _etl_eia_thermoelectric_cooling_water_data(eiawater_settings: EiaWaterSettin
         settings=eiawater_settings
     )
 
-    # Need to implement below next!
+    # Temporary line to make flake8 be quiet
+    del eiawater_raw_dfs
 
+    # Need to implement below next!
+    """
     # Transform EIA forms 923, 860
     eia860_transformed_dfs = pudl.transform.eia860.transform(
         eia860_raw_dfs, eia860_settings=eia_settings.eia860
@@ -139,6 +140,9 @@ def _etl_eia_thermoelectric_cooling_water_data(eiawater_settings: EiaWaterSettin
     out_dfs.update(entities_dfs)
     out_dfs.update(eia_transformed_dfs)
     return out_dfs
+    """
+    return None
+
 
 def _etl_eia(
     eia_settings: EiaSettings, ds_kwargs: Dict[str, Any]

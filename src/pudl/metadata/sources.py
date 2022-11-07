@@ -169,16 +169,6 @@ SOURCES: Dict[str, Any] = {
         "license_raw": LICENSES["us-govt"],
         "license_pudl": LICENSES["cc-by-4.0"],
     },
-    "eiawater": {
-        "title": "EIA Thermoelectric Cooling Water",
-        "path": "https://www.eia.gov/electricity/data/water",
-        "description": (
-            "Monthly cooling water usage by generator and boiler. Data "
-            "collected in conjunction with the EIA-860 and EIA-923."
-        ),
-        "license_raw": LICENSES["us-govt"],
-        "license_pudl": LICENSES["cc-by-4.0"],
-    },
     "epacems": {
         "title": "EPA Hourly Continuous Emission Monitoring System (CEMS)",
         "path": "https://ampd.epa.gov/ampd",
